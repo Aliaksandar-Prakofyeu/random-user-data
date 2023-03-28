@@ -1,6 +1,6 @@
 import 'bulma/css/bulma.min.css'
 import 'bulma-slider/dist/css/bulma-slider.min.css'
-import NavBar from './components/NavBar'
+import ControlBar from './components/ControlBar'
 import GeneratedUsers from './components/GeneratedUsers'
 import {useState} from 'react'
 
@@ -23,12 +23,12 @@ function App() {
 
     return (
         <div className="container is-fluid">
-            <NavBar seed={seed}
-                    location={location}
-                    errorsRate={errorsRate}
-                    updateSeed={handleUpdateSeed}
-                    updateLocation={handleUpdateLocation}
-                    updateErrorsRate={handleUpdateErrorsRate}/>
+            <ControlBar seed={seed}
+                        location={location}
+                        errorsRate={errorsRate}
+                        updateSeed={handleUpdateSeed}
+                        updateLocation={handleUpdateLocation}
+                        updateErrorsRate={handleUpdateErrorsRate}/>
             <GeneratedUsers location={location}
                             seed={seed ?? 0}
                             errorsRate={errorsRate ?? 0}/>
