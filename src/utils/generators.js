@@ -31,7 +31,17 @@ export function generateAddress() {
     return result
 }
 
-
+export const generateUser = () => {
+    const sex = faker.name.gender(true)
+    const firstName = faker.name.firstName(sex)
+    const lastName = faker.name.lastName(sex)
+    return {
+        ID: faker.datatype.hexadecimal({ length: 10 }),
+        fullName: `${firstName} ${lastName}`,
+        address: generateAddress(),
+        phone: faker.phone.number(),
+    }
+}
 
 
 

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {faker} from '@faker-js/faker'
-import {generateAddress} from '../utils/generateUsers'
+import {generateUser} from '../utils/generators'
 import {useInView} from 'react-intersection-observer'
 import {addErrors} from '../utils/addErrors'
 import CsvDownload from 'react-csv-downloader'
@@ -9,20 +9,13 @@ const GeneratedUsers = (props) => {
     const [users, setUsers] = useState([])
     const [tableRef, inView] = useInView()
 
+    const PAGE_SIZE = 10
+    const INITIAL_PAGE_SIZE = 30
+
     const addUsers = (clear = false) => {
         const temp = clear ? [] : [...users]
-        const length = clear ? {length: 30} : {length: 10}
-        const newUsers = Array.from(length, () => {
-            const sex = faker.name.gender(true)
-            const firstName = faker.name.firstName(sex)
-            const lastName = faker.name.lastName(sex)
-            return {
-                ID: faker.datatype.hexadecimal({ length: 10 }),
-                fullName: `${firstName} ${lastName}`,
-                address: generateAddress(),
-                phone: faker.phone.number(),
-            }
-        })
+        const length = clear ? {length: INITIAL_PAGE_SIZE} : {length: PAGE_SIZE}
+        const newUsers = Array.from(length, () => generateUser())
         newUsers.forEach((user) => {
             addErrors(user, props.errorsRate)
             temp.push(user)
@@ -31,8 +24,9 @@ const GeneratedUsers = (props) => {
     }
 
     useEffect(() => {
-        inView && addUsers()
-        console.log(props.errorsRate)
+        if (inView) {
+            addUsers()
+        }
     }, [inView])
 
     const generateUsers = () => {
@@ -68,8 +62,9 @@ const GeneratedUsers = (props) => {
                     )}
                     </tbody>
                 </table>
-                <CsvDownload filename='randomUsers' separator=';' wrapColumnChar="'" datas={users}>
-                    <button className="button is-primary is-rounded" style={{ position: 'fixed', bottom: '2rem', right: '2rem' }}>
+                <CsvDownload filename="randomUsers" separator=";" wrapColumnChar="'" datas={users}>
+                    <button className="button is-primary is-rounded"
+                            style={{position: 'fixed', bottom: '2rem', right: '2rem'}}>
                         Download in CSV
                     </button>
                 </CsvDownload>

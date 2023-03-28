@@ -3,7 +3,7 @@ import randomBytes from 'randombytes/browser'
 
 const NavBar = (props) => {
 
-    const handleOnChange = (setter, float, min = 0, max) => {
+    const handleUpdateErrorsRate = (setter,  float, min = 0, max) => {
         return ({target: {value}}) => {
             if (value === '') {
                 setter(undefined)
@@ -28,6 +28,10 @@ const NavBar = (props) => {
         props.updateSeed(getRandomSeed())
     }
 
+    const handleUpdateSeed = (e) => {
+        const value = e.target.value
+        props.updateSeed(+value)
+    }
 
 
     return (
@@ -51,7 +55,7 @@ const NavBar = (props) => {
                         step="0.1"
                         max="1000"
                         value={props.errorsRate}
-                        onChange={handleOnChange(props.updateErrorsRate, true, 0, 1000)}
+                        onChange={handleUpdateErrorsRate(props.updateErrorsRate, true, 0, 1000)}
                         placeholder="Errors rate"/>
                     <input
                         className="slider is-fullwidth mt-4"
@@ -59,7 +63,7 @@ const NavBar = (props) => {
                         step="0.1"
                         max="10"
                         value={props.errorsRate}
-                        onChange={handleOnChange(props.updateErrorsRate, true, 0, 1000)}
+                        onChange={handleUpdateErrorsRate(props.updateErrorsRate, true, 0, 1000)}
                         placeholder="Errors rate"/>
                 </div>
                 <div className="control is-flex-direction-column is-align-items-stretch navbar-item">
@@ -67,8 +71,7 @@ const NavBar = (props) => {
                     <input className="input"
                            type="number"
                            value={props.seed}
-                           onChange={handleOnChange(props.updateSeed)}
-                           placeholder="Seed"/>
+                           onChange={handleUpdateSeed}/>
                     <button onClick={handleRandomSeed} className="button is-primary is-fullwidth mt-2">Random Seed</button>
                 </div>
             </nav>
